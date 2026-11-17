@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mithra Concept Academy — Physics Quiz: How Forces Affect Motion</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; margin: 0; background: #f4f6f3; color: #1c2b1f; }
+  header { background: #14532d; color: #fff; padding: 14px 18px; }
+  header h1 { margin: 0; font-size: 19px; }
+  header p { margin: 4px 0 0; font-size: 13px; color: #d9eadd; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 16px; }
+  .card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 1px 6px rgba(0,0,0,.08); margin-bottom: 14px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .pill { background: #eef5ee; border: 1px solid #cfe3cf; color: #14532d; border-radius: 999px; padding: 6px 12px; font-size: 13px; font-weight: 600; }
+  input[type=text] { width: 100%; padding: 11px 12px; font-size: 16px; border: 1.5px solid #b9c9bb; border-radius: 8px; margin: 6px 0 12px; }
+  label { font-weight: 600; font-size: 14px; }
+  button { font-size: 16px; padding: 11px 18px; border: none; border-radius: 9px; cursor: pointer; }
+  .btn-primary { background: #14532d; color: #fff; width: 100%; }
+  .btn-secondary { background: #e7ede7; color: #1c2b1f; }
+  .btn-danger { background: #b91c1c; color: #fff; }
+  .timerbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  #timer { font-size: 26px; font-weight: 800; color: #14532d; font-variant-numeric: tabular-nums; }
+  #timer.low { color: #b91c1c; }
+  .palette { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 10px; }
+  .palette button { padding: 8px 0; font-size: 13px; background: #eef1ee; color: #333; border-radius: 6px; }
+  .palette button.answered { background: #14532d; color: #fff; }
+  .palette button.marked { background: #7c3aed; color: #fff; }
+  .palette button.current { outline: 2.5px solid #d4a017; outline-offset: 1px; }
+  .qnum { font-size: 13px; font-weight: 700; color: #6b7a6d; }
+  .qtext { font-size: 18px; line-height: 1.5; margin: 8px 0 14px; }
+  .opt { display: block; width: 100%; text-align: left; background: #f7f9f7; border: 1.5px solid #d5ded5; border-radius: 9px; padding: 12px; margin-bottom: 9px; font-size: 16px; color: #1c2b1f; }
+  .opt.sel { border-color: #14532d; background: #e7f2e7; font-weight: 600; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .row button { flex: 1; min-width: 120px; }
+  .score-big { font-size: 44px; font-weight: 800; color: #14532d; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { border-bottom: 1px solid #e3e8e3; padding: 8px 6px; text-align: left; }
+  th { background: #eef5ee; }
+  .rev { border-left: 4px solid #ccc; padding: 10px 12px; margin-bottom: 10px; background: #fbfcfb; border-radius: 6px; }
+  .rev.correct { border-color: #14532d; }
+  .rev.wrong { border-color: #b91c1c; }
+  .rev.skipped { border-color: #d4a017; }
+  .rev p { margin: 5px 0; font-size: 15px; line-height: 1.5; }
+  .tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .tag.correct { background: #dcfce7; color: #14532d; }
+  .tag.wrong { background: #fee2e2; color: #b91c1c; }
+  .tag.skipped { background: #fef3c7; color: #92400e; }
+  .hidden { display: none; }
+  .note { font-size: 13px; color: #5b6b5e; line-height: 1.5; }
+  @media print {
+    header, #startScreen, #quizScreen, .no-print { display: none !important; }
+    body { background: #fff; }
+    #resultScreen { display: block !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mithra Concept Academy</h1>
+  <p>Physics — Chapter 2: How Forces Affect Motion &nbsp;|&nbsp; JEE Pattern Mock Test</p>
+</header>
+<div class="wrap">
+
+  <!-- START -->
+  <div id="startScreen" class="card">
+    <h2 style="margin-top:0">50 Questions &bull; 40 Minutes &bull; 200 Marks</h2>
+    <div class="meta">
+      <span class="pill">+4 correct</span>
+      <span class="pill">&minus;1 wrong</span>
+      <span class="pill">0 skipped</span>
+      <span class="pill">Single correct option</span>
+      <span class="pill">g = 10 m/s&sup2; (unless stated)</span>
+    </div>
+    <p class="note">Topics — Inertia &amp; Newton&rsquo;s 1st Law (8) &bull; Momentum &amp; 2nd Law (12) &bull; 3rd Law &amp; Conservation of Momentum (8) &bull; Friction (12) &bull; Connected Motion (10). Based on Aakash Physics Chapter 2 (Level-I + Level-II).</p>
+    <label for="stuName">Student name</label>
+    <input type="text" id="stuName" placeholder="e.g. enter your name" autocomplete="off">
+    <label for="stuClass">Class (optional)</label>
+    <input type="text" id="stuClass" placeholder="e.g. Class 9 / IIT Foundation" autocomplete="off">
+    <button class="btn-primary" onclick="startQuiz()">Start Quiz — Timer starts now (40:00)</button>
+    <p class="note">Once started the timer cannot be paused. At 00:00 the quiz auto-submits. Use the palette to jump between questions; purple = marked for review.</p>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen" class="hidden">
+    <div class="card timerbar">
+      <div><strong id="stuLabel"></strong><br><span class="note">Mithra Concept Academy — Ch-2 Forces &amp; Motion</span></div>
+      <div id="timer">40:00</div>
+    </div>
+    <div class="card">
+      <div class="palette" id="palette"></div>
+      <p class="note">Green = answered &nbsp;•&nbsp; Purple = marked for review &nbsp;•&nbsp; Grey = not attempted</p>
+    </div>
+    <div class="card">
+      <div class="qnum" id="qNum"></div>
+      <div class="qtext" id="qText"></div>
+      <div id="opts"></div>
+      <div class="row">
+        <button class="btn-secondary" onclick="prevQ()">&#8592; Previous</button>
+        <button class="btn-secondary" onclick="clearQ()">Clear</button>
+        <button class="btn-secondary" onclick="markQ()">Mark for Review</button>
+        <button class="btn-primary" style="width:auto;flex:2" onclick="nextQ()">Save &amp; Next &#8594;</button>
+      </div>
+      <div class="row">
+        <button class="btn-danger" style="width:100%" onclick="submitQuiz(true)">Submit Test</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="resultScreen" class="hidden">
+    <div class="card">
+      <h2 style="margin-top:0">Result — <span id="resName"></span></h2>
+      <div class="score-big"><span id="resScore"></span> / 200</div>
+      <p id="resSummary" style="font-size:16px"></p>
+      <div class="row no-print">
+        <button class="btn-primary" onclick="window.print()">Download / Print Report (PDF)</button>
+        <button class="btn-secondary" onclick="location.reload()">Retake Test</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Topic-wise Performance</h3>
+      <table id="topicTable"></table>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Question-wise Review — mistakes explained</h3>
+      <div id="review"></div>
+    </div>
+  </div>
+
+</div>
+
+<script type="application/json" id="qdata">
+[
+{"t":"Inertia & Newton's 1st Law","q":"Which body has the greatest inertia?","o":["2 kg cricket ball","10 kg dumbbell","0.5 kg tennis ball","5 kg school bag"],"a":1,"e":"Inertia depends only on mass — more mass means more inertia. The 10 kg dumbbell is the heaviest, so it resists any change in its state of motion the most."},
+{"t":"Inertia & Newton's 1st Law","q":"A bus takes a sharp left turn and the passengers lean towards the right. This happens due to:","o":["Inertia of rest","Friction between the seat and the passenger","Inertia of direction","Momentum of the bus"],"a":2,"e":"The passengers' bodies tend to continue moving in the original straight-line direction (inertia of direction) while the bus turns left, so they appear to lean right."},
+{"t":"Inertia & Newton's 1st Law","q":"Dust comes out of a carpet when it is beaten with a stick. The correct reason is:","o":["The dust particles tend to remain at rest while the carpet moves (inertia of rest)","The stick attracts the dust","Friction heats the carpet","The carpet becomes lighter"],"a":0,"e":"When the carpet is suddenly moved by the beating, the dust particles stay in their rest position due to inertia of rest and fall out of the carpet."},
+{"t":"Inertia & Newton's 1st Law","q":"An athlete does not come to rest immediately after crossing the finishing line. This is due to:","o":["Friction","Gravity","Momentum only","Inertia of motion"],"a":3,"e":"A moving body tends to continue moving — inertia of motion. The athlete's body keeps moving forward for a few steps before friction and muscle effort stop it."},
+{"t":"Inertia & Newton's 1st Law","q":"A 2 kg ball rolls at 4 m/s on a perfectly smooth horizontal surface and no force acts on it. After 5 seconds its speed will be:","o":["0 m/s","4 m/s","20 m/s","9 m/s"],"a":1,"e":"Newton's first law: with zero net force, a body keeps its velocity unchanged. No force means no acceleration, so the speed stays 4 m/s."},
+{"t":"Inertia & Newton's 1st Law","q":"Which of the following is NOT an example of inertia?","o":["A coin falls into a glass when the card below it is flicked away","A passenger jerks forward when the bus stops suddenly","A rocket speeds up because its engine throws exhaust gases backward","A book stays on the table when the tablecloth is pulled away quickly"],"a":2,"e":"The rocket works on action-reaction (Newton's third law) and conservation of momentum, not inertia. The other three are all inertia — the body resisting a change in its state."},
+{"t":"Inertia & Newton's 1st Law","q":"A 1000 kg car and a 100 kg scooter both move at 20 m/s. Which has greater inertia of motion?","o":["The car","The scooter","Both have equal inertia","It depends only on speed, not mass"],"a":0,"e":"Inertia of motion also depends on mass. At the same speed, the heavier car has more inertia of motion — it is harder to stop or turn."},
+{"t":"Inertia & Newton's 1st Law","q":"A coin placed on a card over a glass falls into the glass when the card is flicked away. The coin falls because:","o":["Gravity pulls the card down","The coin is too heavy to move","Friction pushes the coin down","The coin's inertia of rest keeps it in place while the card moves away"],"a":3,"e":"The card moves away suddenly, but the coin tends to stay at rest (inertia of rest). With no support left under it, gravity pulls it straight down into the glass."},
+{"t":"Momentum & Newton's 2nd Law","q":"The linear momentum of a 2 kg body moving with a velocity of 5 m/s is:","o":["10 kg m/s","2.5 kg m/s","7 kg m/s","25 kg m/s"],"a":0,"e":"Momentum p = mv = 2 × 5 = 10 kg m/s. Common mistake: adding mass and velocity (2 + 5 = 7) instead of multiplying."},
+{"t":"Momentum & Newton's 2nd Law","q":"A force of 10 N acts on a body for 2 s. The change in its linear momentum is:","o":["5 kg m/s","10 kg m/s","20 kg m/s","40 kg m/s"],"a":2,"e":"Impulse = change in momentum = F × Δt = 10 × 2 = 20 kg m/s."},
+{"t":"Momentum & Newton's 2nd Law","q":"A 20 N force acts on a 4 kg block on a smooth horizontal surface. Its acceleration is:","o":["4 m/s²","5 m/s²","80 m/s²","0.2 m/s²"],"a":1,"e":"From F = ma, a = F/m = 20/4 = 5 m/s². Do not multiply F and m — acceleration is force divided by mass."},
+{"t":"Momentum & Newton's 2nd Law","q":"An engine pulls a train of mass 10,000 kg with a force of 50,000 N, while friction opposes the motion with 10,000 N. The acceleration of the train is:","o":["5 m/s²","6 m/s²","10 m/s²","4 m/s²"],"a":3,"e":"Net force = 50,000 − 10,000 = 40,000 N. Then a = F/m = 40,000/10,000 = 4 m/s². Remember to subtract the opposing friction first."},
+{"t":"Momentum & Newton's 2nd Law","q":"A cricket ball of mass 0.15 kg moving at 20 m/s is stopped by the fielder in 0.1 s. The average force exerted on the ball is:","o":["30 N","3 N","300 N","0.3 N"],"a":0,"e":"Change in momentum = m(v − u) = 0.15 × 20 = 3 kg m/s. Force = Δp/Δt = 3/0.1 = 30 N. This is why the fielder pulls his hands back — increasing Δt reduces the force."},
+{"t":"Momentum & Newton's 2nd Law","q":"If the velocity of a body is doubled while its mass stays constant, its momentum becomes:","o":["The same","Double","Four times","Half"],"a":1,"e":"p = mv, so momentum is directly proportional to velocity. Doubling v doubles p. (Kinetic energy would become four times — do not mix the two.)"},
+{"t":"Momentum & Newton's 2nd Law","q":"Two bodies have the same linear momentum. Their masses are 1 kg and 4 kg. The ratio of their kinetic energies (lighter : heavier) is:","o":["1 : 4","1 : 2","4 : 1","1 : 1"],"a":2,"e":"KE = p²/2m. With p the same, KE is inversely proportional to mass, so the lighter body has 4 times the KE: ratio 4 : 1."},
+{"t":"Momentum & Newton's 2nd Law","q":"A 10 kg body at rest is pushed by a 50 N force for 4 s on a frictionless surface. Its final velocity is:","o":["5 m/s","10 m/s","2 m/s","20 m/s"],"a":3,"e":"a = F/m = 50/10 = 5 m/s². Then v = u + at = 0 + 5 × 4 = 20 m/s."},
+{"t":"Momentum & Newton's 2nd Law","q":"A 20 N force acts for 0.5 s on a 2 kg body initially at rest. Its velocity becomes:","o":["10 m/s","2.5 m/s","20 m/s","5 m/s"],"a":3,"e":"Impulse Ft = change in momentum: 20 × 0.5 = 10 = 2 × v, so v = 5 m/s."},
+{"t":"Momentum & Newton's 2nd Law","q":"A 3 kg object speeds up from 4 m/s to 10 m/s. Its change in linear momentum is:","o":["18 kg m/s","12 kg m/s","30 kg m/s","6 kg m/s"],"a":0,"e":"Δp = m(v − u) = 3 × (10 − 4) = 18 kg m/s. Use the change in velocity (6 m/s), not the final velocity alone."},
+{"t":"Momentum & Newton's 2nd Law","q":"If the linear momentum of a body remains constant, the net external force acting on it is:","o":["Maximum","Equal to its weight","Increasing with time","Zero"],"a":3,"e":"F = dp/dt. If p does not change, dp/dt = 0, so the net force is zero — the body moves with constant velocity (Newton's first law)."},
+{"t":"Momentum & Newton's 2nd Law","q":"A 0.5 kg ball hits a wall at 10 m/s and rebounds with the same speed in the opposite direction. The magnitude of the change in its linear momentum is:","o":["0 kg m/s","5 kg m/s","10 kg m/s","20 kg m/s"],"a":2,"e":"Take the rebound direction as positive: Δp = m(v − u) = 0.5 × (10 − (−10)) = 0.5 × 20 = 10 kg m/s. The speed is the same, but momentum is a vector — the direction reverses, so the change is 2mv, not zero."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"Action and reaction forces:","o":["Act on the same body and cancel each other","Act on different bodies, and are equal in magnitude and opposite in direction","Act on the same body but are unequal","Exist only when a body touches a wall"],"a":1,"e":"Action-reaction pairs always act on two different bodies. That is why they never cancel each other, even though they are equal and opposite."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"A horse can pull a cart forward even though the cart pulls the horse back with an equal and opposite force. The correct explanation is:","o":["The ground pushes the horse forward — it is the external force on the horse that makes it accelerate","The horse's pull on the cart is actually larger than the cart's pull on the horse","Action and reaction cancel only on the cart, not on the horse","Friction on the cart is zero"],"a":0,"e":"The action-reaction pair acts on different bodies (horse vs cart). The horse moves because the ground exerts a forward force on its hooves, and that external force exceeds the backward pull of the cart."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"A gun of mass 5 kg fires a bullet of mass 0.01 kg with a velocity of 400 m/s. The recoil velocity of the gun is:","o":["4 m/s","0.08 m/s","8 m/s","0.8 m/s"],"a":3,"e":"By conservation of momentum: m_bullet × v_bullet = m_gun × v_gun → 0.01 × 400 = 5 × v → v = 4/5 = 0.8 m/s backward."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"A 2 kg trolley moving at 3 m/s collides with a stationary 3 kg trolley and they stick together. Their common velocity is:","o":["3 m/s","1.2 m/s","2 m/s","0.6 m/s"],"a":1,"e":"Total momentum before = 2 × 3 = 6 kg m/s. After sticking, total mass = 5 kg, so v = 6/5 = 1.2 m/s."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"A rocket moves forward in outer space mainly because of:","o":["Air pushing against it","The gravity of the Earth","Conservation of momentum as exhaust gases are thrown backward at high speed","Friction with the air"],"a":2,"e":"The rocket throws exhaust gases backward; by conservation of momentum the rocket gains equal forward momentum. No air is needed — that is why rockets work in space."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"Two skaters (50 kg and 60 kg) push each other apart on frictionless ice. If the 50 kg skater moves away at 3 m/s, the 60 kg skater moves at:","o":["2.5 m/s","3.6 m/s","3 m/s","2 m/s"],"a":0,"e":"Total momentum stays zero: 50 × 3 = 60 × v → v = 150/60 = 2.5 m/s in the opposite direction."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"Action and reaction forces do NOT cancel each other because:","o":["They are unequal in magnitude","They act at different times","They act in the same direction","They act on different bodies"],"a":3,"e":"Cancellation needs two forces on the SAME body. Action and reaction act on different bodies, so each body feels only its own force."},
+{"t":"Newton's 3rd Law & Conservation of Momentum","q":"A bullet and a gun are initially at rest. Just after firing, the total linear momentum of the bullet + gun system is:","o":["Equal to the bullet's momentum","Zero","Equal to the gun's momentum","Twice the bullet's momentum"],"a":1,"e":"No external impulse acts during the short firing time, so total momentum is conserved: it was zero at rest and stays zero — the bullet's forward momentum is balanced by the gun's backward momentum."},
+{"t":"Friction","q":"The maximum static friction for a 5 kg block on a surface with μs = 0.4 is: (g = 10 m/s²)","o":["10 N","20 N","40 N","50 N"],"a":1,"e":"Limiting friction = μs × N = μs × mg = 0.4 × 5 × 10 = 20 N."},
+{"t":"Friction","q":"A 10 kg block slides on a surface with coefficient of kinetic friction μk = 0.3. The kinetic friction force is: (g = 10 m/s²)","o":["30 N","3 N","300 N","100 N"],"a":0,"e":"Kinetic friction fk = μk × N = 0.3 × 10 × 10 = 30 N, acting opposite to the motion."},
+{"t":"Friction","q":"The maximum static friction for a block is 20 N. A horizontal force of 15 N is applied to the block at rest. What happens?","o":["The block moves with a large acceleration","The friction force becomes 20 N","The block stays at rest and the friction force is 15 N","The block moves at constant speed"],"a":2,"e":"Static friction is self-adjusting: it grows only as much as needed to balance the applied force, up to its limiting value. 15 N < 20 N, so the block stays at rest with friction = 15 N."},
+{"t":"Friction","q":"The direction of kinetic friction on a sliding body is:","o":["Along the direction of motion","Perpendicular to the surface","In the direction of the applied force","Opposite to the relative motion of the body"],"a":3,"e":"Friction always opposes relative motion (or the tendency of relative motion) between the surfaces in contact."},
+{"t":"Friction","q":"For the same pair of surfaces, the correct order of friction is:","o":["Rolling > Sliding > Static","Static (maximum) > Sliding > Rolling","Sliding > Static > Rolling","Rolling > Static > Sliding"],"a":1,"e":"Limiting static friction is the largest, sliding (kinetic) friction is smaller, and rolling friction is the smallest — that is why wheels and ball bearings are used."},
+{"t":"Friction","q":"A block is just on the point of sliding down an incline of angle θ. The relation between θ and the coefficient of static friction μs is:","o":["tan θ = μs","sin θ = μs","cos θ = μs","cot θ = μs"],"a":0,"e":"At the angle of repose, the component mg sin θ pulling it down equals the limiting friction μs mg cos θ. Cancelling mg cos θ gives tan θ = μs."},
+{"t":"Friction","q":"A block slides down a 30° incline with coefficient of kinetic friction μk = 0.2. Its acceleration is about: (g = 10 m/s², sin 30° = 0.5, cos 30° = 0.87)","o":["5.0 m/s²","6.8 m/s²","3.3 m/s²","1.5 m/s²"],"a":2,"e":"a = g(sin θ − μk cos θ) = 10 × (0.5 − 0.2 × 0.87) = 10 × (0.5 − 0.174) ≈ 3.3 m/s². The friction term subtracts from the downhill component."},
+{"t":"Friction","q":"The minimum horizontal force needed to just move a 20 kg block on a surface with μs = 0.5 is: (g = 10 m/s²)","o":["10 N","50 N","200 N","100 N"],"a":3,"e":"You must overcome limiting friction: F = μs mg = 0.5 × 20 × 10 = 100 N."},
+{"t":"Friction","q":"Friction between two surfaces does NOT depend on:","o":["The normal reaction between the surfaces","The area of contact, for the same normal reaction","The nature of the two surfaces","The coefficient of friction"],"a":1,"e":"For the same normal reaction, friction is (to a good approximation) independent of the apparent area of contact. It depends on the normal force and on μ, which comes from the nature of the surfaces."},
+{"t":"Friction","q":"A car moving at 20 m/s brakes on a road with coefficient of friction μ = 0.5. Its stopping distance is about: (g = 10 m/s²)","o":["40 m","20 m","80 m","10 m"],"a":0,"e":"Braking deceleration a = μg = 5 m/s². Stopping distance = v²/(2a) = 400/(2 × 5) = 40 m."},
+{"t":"Friction","q":"Static friction is called 'self-adjusting' because:","o":["It is always equal to μsN","It is always zero until motion starts","It grows to match the applied force, up to its limiting value","It depends on the speed of the body"],"a":2,"e":"Static friction has no fixed value — it adjusts itself to exactly balance the applied force, until the applied force exceeds the limiting value μsN and motion begins."},
+{"t":"Friction","q":"Which of the following INCREASES friction?","o":["Oiling a hinge","Polishing a surface","Using ball bearings in a machine","Spreading sand on an icy road"],"a":3,"e":"Sand makes the icy surface rougher, increasing grip. Oil, polishing and ball bearings all reduce friction."},
+{"t":"Connected Motion","q":"Two masses of 6 kg and 4 kg hang over a frictionless pulley (Atwood machine, g = 10 m/s²). The acceleration of the system is:","o":["2 m/s²","4 m/s²","10 m/s²","1 m/s²"],"a":0,"e":"a = (m1 − m2)/(m1 + m2) × g = (6 − 4)/10 × 10 = 2 m/s², with the heavier mass going down."},
+{"t":"Connected Motion","q":"In the same Atwood setup (6 kg and 4 kg masses, g = 10 m/s²), the tension in the string is:","o":["60 N","40 N","48 N","24 N"],"a":2,"e":"T = 2m1m2/(m1 + m2) × g = (2 × 6 × 4/10) × 10 = 48 N. Check: for the 6 kg mass, 60 − T = 6 × 2 → T = 48 N."},
+{"t":"Connected Motion","q":"A 2 kg block and a 4 kg block on a smooth table are connected by a string. A 30 N force pulls the 2 kg block. The tension in the string is:","o":["10 N","30 N","20 N","5 N"],"a":2,"e":"Total mass = 6 kg, so a = 30/6 = 5 m/s². The string must accelerate the 4 kg block: T = 4 × 5 = 20 N."},
+{"t":"Connected Motion","q":"A 5 kg block on a smooth horizontal table is connected over a pulley to a hanging 5 kg block. The acceleration of the system is: (g = 10 m/s²)","o":["10 m/s²","2.5 m/s²","0 m/s²","5 m/s²"],"a":3,"e":"Only the hanging weight drives the system: a = m_hanging/(m_total) × g = 5/10 × 10 = 5 m/s²."},
+{"t":"Connected Motion","q":"The tension in a light (massless) string is:","o":["The same at every point along the string","Zero everywhere","Maximum at the middle of the string","Different at the two ends"],"a":0,"e":"A massless string has no mass to accelerate, so the tension is uniform throughout its length. (For a heavy string, tension varies along its length.)"},
+{"t":"Connected Motion","q":"A 60 kg person stands on a weighing scale in a lift accelerating upward at 2 m/s². The scale reads: (g = 10 m/s²)","o":["600 N","480 N","720 N","60 N"],"a":2,"e":"Apparent weight = m(g + a) = 60 × (10 + 2) = 720 N. In a lift accelerating up, you feel heavier; accelerating down, you feel lighter."},
+{"t":"Connected Motion","q":"Two equal masses of 5 kg each hang over a frictionless pulley. The acceleration and the tension in the string are:","o":["a = 10 m/s², T = 0","a = 0, T = 50 N","a = 5 m/s², T = 25 N","a = 0, T = 0"],"a":1,"e":"With equal masses the net driving force is zero, so a = 0. The string simply supports each weight: T = mg = 5 × 10 = 50 N."},
+{"t":"Connected Motion","q":"Three blocks of 1 kg, 2 kg and 3 kg in a row on a smooth surface are pulled by a 12 N force applied to the 1 kg block. The tension between the 2 kg and 3 kg blocks is:","o":["6 N","12 N","4 N","2 N"],"a":0,"e":"Total mass = 6 kg, so a = 12/6 = 2 m/s². The last string only has to accelerate the 3 kg block: T = 3 × 2 = 6 N."},
+{"t":"Connected Motion","q":"A horse pulls a cart with a force of 500 N. The force the cart exerts on the horse is:","o":["0 N","250 N in the forward direction","1000 N","500 N in the backward direction"],"a":3,"e":"Newton's third law: the cart pulls the horse back with a force equal in magnitude (500 N) and opposite in direction to the horse's pull on the cart."},
+{"t":"Connected Motion","q":"For the Atwood machine with 6 kg and 4 kg masses (g = 10 m/s²), the force exerted on the pulley support is:","o":["48 N","96 N","100 N","60 N"],"a":1,"e":"The pulley feels the pull of the string on both sides, so the support force = 2T = 2 × 48 = 96 N."}
+]
+</script>
+
+<script>
+const QUESTIONS = JSON.parse(document.getElementById('qdata').textContent);
+const TOTAL_TIME = 40 * 60;
+let answers = new Array(QUESTIONS.length).fill(null);
+let marked = new Array(QUESTIONS.length).fill(false);
+let current = 0, remaining = TOTAL_TIME, timerId = null, submitted = false;
+
+function startQuiz() {
+  const name = document.getElementById('stuName').value.trim();
+  if (!name) { alert('Please enter the student name first.'); return; }
+  document.getElementById('stuLabel').textContent = name + (document.getElementById('stuClass').value.trim() ? '  •  ' + document.getElementById('stuClass').value.trim() : '');
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('quizScreen').classList.remove('hidden');
+  buildPalette(); showQ(0);
+  timerId = setInterval(() => {
+    remaining--;
+    const m = Math.floor(remaining / 60), s = remaining % 60;
+    const el = document.getElementById('timer');
+    el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if (remaining <= 300) el.classList.add('low');
+    if (remaining <= 0) { clearInterval(timerId); submitQuiz(false); }
+  }, 1000);
+}
+function buildPalette() {
+  const p = document.getElementById('palette'); p.innerHTML = '';
+  QUESTIONS.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.textContent = i + 1; b.id = 'pal' + i;
+    b.onclick = () => showQ(i);
+    p.appendChild(b);
+  });
+}
+function refreshPalette() {
+  QUESTIONS.forEach((_, i) => {
+    const b = document.getElementById('pal' + i);
+    b.className = '';
+    if (answers[i] !== null) b.classList.add('answered');
+    else if (marked[i]) b.classList.add('marked');
+    if (i === current) b.classList.add('current');
+  });
+}
+function showQ(i) {
+  current = i;
+  const q = QUESTIONS[i];
+  document.getElementById('qNum').textContent = 'Question ' + (i+1) + ' of 50  •  ' + q.t;
+  document.getElementById('qText').textContent = q.q;
+  const box = document.getElementById('opts'); box.innerHTML = '';
+  q.o.forEach((opt, j) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[i] === j ? ' sel' : '');
+    b.innerHTML = '<b>(' + 'ABCD'[j] + ')</b>&nbsp; ' + opt;
+    b.onclick = () => { answers[i] = j; showQ(i); };
+    box.appendChild(b);
+  });
+  refreshPalette();
+}
+function nextQ() { if (current < QUESTIONS.length - 1) showQ(current + 1); else submitQuiz(true); }
+function prevQ() { if (current > 0) showQ(current - 1); }
+function clearQ() { answers[current] = null; showQ(current); }
+function markQ() { marked[current] = !marked[current]; showQ(current); }
+function submitQuiz(confirmFirst) {
+  if (submitted) return;
+  if (confirmFirst) {
+    const un = answers.filter(a => a === null).length;
+    if (!confirm('Submit the test? ' + un + ' question(s) are still unanswered.')) return;
+  }
+  submitted = true;
+  if (timerId) clearInterval(timerId);
+  let score = 0, correct = 0, wrong = 0, skipped = 0;
+  const topics = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!topics[q.t]) topics[q.t] = { total: 0, correct: 0, attempted: 0, score: 0 };
+    topics[q.t].total++;
+    if (answers[i] === null) { skipped++; }
+    else {
+      topics[q.t].attempted++;
+      if (answers[i] === q.a) { correct++; score += 4; topics[q.t].correct++; topics[q.t].score += 4; }
+      else { wrong++; score -= 1; topics[q.t].score -= 1; }
+    }
+  });
+  document.getElementById('quizScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  document.getElementById('resName').textContent = document.getElementById('stuLabel').textContent;
+  document.getElementById('resScore').textContent = score;
+  const acc = (correct + wrong) ? Math.round(100 * correct / (correct + wrong)) : 0;
+  document.getElementById('resSummary').textContent =
+    'Correct: ' + correct + '  •  Wrong: ' + wrong + '  •  Skipped: ' + skipped +
+    '  •  Accuracy: ' + acc + '%  •  Time used: ' + Math.floor((TOTAL_TIME - remaining) / 60) + ' min ' + ((TOTAL_TIME - remaining) % 60) + ' sec';
+  let th = '<tr><th>Topic</th><th>Questions</th><th>Attempted</th><th>Correct</th><th>Score</th><th>Weak / Strong</th></tr>';
+  Object.keys(topics).forEach(t => {
+    const x = topics[t];
+    const pct = x.attempted ? Math.round(100 * x.correct / x.attempted) : 0;
+    const verdict = x.attempted === 0 ? 'Not attempted' : (pct >= 75 ? 'Strong' : pct >= 50 ? 'Average — revise' : 'Weak — revise this topic first');
+    th += '<tr><td>' + t + '</td><td>' + x.total + '</td><td>' + x.attempted + '</td><td>' + x.correct + '</td><td>' + x.score + '</td><td>' + verdict + '</td></tr>';
+  });
+  document.getElementById('topicTable').innerHTML = th;
+  const rev = document.getElementById('review'); rev.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const st = answers[i] === null ? 'skipped' : (answers[i] === q.a ? 'correct' : 'wrong');
+    const d = document.createElement('div');
+    d.className = 'rev ' + st;
+    d.innerHTML = '<p><b>Q' + (i+1) + ' — ' + q.t + '</b> <span class="tag ' + st + '">' + st.toUpperCase() + '</span></p>' +
+      '<p>' + q.q + '</p>' +
+      '<p>Your answer: <b>' + (answers[i] === null ? 'Skipped' : '(' + 'ABCD'[answers[i]] + ') ' + q.o[answers[i]]) + '</b><br>Correct answer: <b>(' + 'ABCD'[q.a] + ') ' + q.o[q.a] + '</b></p>' +
+      '<p><b>Why:</b> ' + q.e + '</p>';
+    rev.appendChild(d);
+  });
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
